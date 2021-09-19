@@ -1,0 +1,7 @@
+root - INFO - Testing import_data: SUCCESS
+root - INFO - Testing EDA analysis: SUCCESS
+root - INFO - Testing categorical encoder: SUCCESS
+root - INFO - Testing Feature Engineering: SUCCESS
+root - INFO - Testing Training Models: SUCCESS
+
+
