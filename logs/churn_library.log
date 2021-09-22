@@ -1,7 +1,11 @@
+root - INFO - Currently importing the file
+root - INFO - Currently checking the dataset
 root - INFO - Testing import_data: SUCCESS
+root - INFO - Currently testing EDA analysis
 root - INFO - Testing EDA analysis: SUCCESS
+root - INFO - Currently testing categorical encoder
 root - INFO - Testing categorical encoder: SUCCESS
+root - INFO - Currently testing feature engineering
 root - INFO - Testing Feature Engineering: SUCCESS
+root - INFO - Currently testing model training
 root - INFO - Testing Training Models: SUCCESS
-
-

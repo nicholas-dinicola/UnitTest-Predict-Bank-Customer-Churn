@@ -59,31 +59,31 @@ def perform_eda(df):
 
     plt.figure(figsize=(20, 10))
     df['Churn'].hist()
-    plt.savefig('images/eda/churn_distribution.png')
+    plt.savefig('images/eda/churn_distribution.png', bbox_inches="tight")
     plt.close()
 
     # plot customer age
     plt.figure(figsize=(20, 10))
     df['Customer_Age'].hist()
-    plt.savefig('images/eda/customer_age_distribution.png')
+    plt.savefig('images/eda/customer_age_distribution.png', bbox_inches="tight")
     plt.close()
 
     # plot marital status
     plt.figure(figsize=(20, 10))
     df.Marital_Status.value_counts('normalize').plot(kind='bar')
-    plt.savefig('images/eda/marital_status_distribution.png')
+    plt.savefig('images/eda/marital_status_distribution.png', bbox_inches="tight")
     plt.close()
 
     # plot total transaction ct
     plt.figure(figsize=(20, 10))
     sns.distplot(df['Total_Trans_Ct'])
-    plt.savefig('images/eda/total_transaction_distribution.png')
+    plt.savefig('images/eda/total_transaction_distribution.png', bbox_inches="tight")
     plt.close()
 
     # plot heatmap
     plt.figure(figsize=(20, 10))
     sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths=2)
-    plt.savefig('images/eda/heatmap.png')
+    plt.savefig('images/eda/heatmap.png', bbox_inches="tight")
     plt.close()
 
 
@@ -223,12 +223,12 @@ def feature_importance_plot(model, x_data, output_pth):
              None
     '''
     # Calculate feature importance
-    importances = model.feature_importances_
+    importance = model.feature_importances_
 
     # Sort feature importance in descending order
-    indices = np.argsort(importances)[::-1]
+    indices = np.argsort(importance)[::-1]
 
-    # Rearrange feature names so they match the sorted feature importances
+    # Rearrange feature names so they match the sorted feature importance
     names = [x_data.columns[i] for i in indices]
 
     # Create plot
@@ -239,11 +239,11 @@ def feature_importance_plot(model, x_data, output_pth):
     plt.ylabel('Importance')
 
     # Add bars
-    plt.bar(range(x_data.shape[1]), importances[indices])
+    plt.bar(range(x_data.shape[1]), importance[indices])
 
     # Add feature names as x-axis labels
     plt.xticks(range(x_data.shape[1]), names, rotation=90)
-    plt.savefig(output_pth)
+    plt.savefig(output_pth, bbox_inches="tight")
     plt.close()
 
 
@@ -289,9 +289,12 @@ def train_models(X_train, X_test, y_train, y_test):
     y_train_preds_lr = lrc.predict(X_train)
     y_test_preds_lr = lrc.predict(X_test)
 
+    # Create a a folder whereby storing the results of the trained models
+    if not os.path.exists("images/results"):
+        os.makedirs("images/results")
+
     # store roc curve with score
     lrc_plot = plot_roc_curve(lrc, X_test, y_test)
-
     plt.figure(figsize=(15, 8))
     ax = plt.gca()
     rfc_plot = plot_roc_curve(
@@ -300,11 +303,6 @@ def train_models(X_train, X_test, y_train, y_test):
         y_test,
         ax=ax,
         alpha=0.8)
-
-    # Create a a folder whereby storing the results of the trained models
-    if not os.path.exists("images/results"):
-        os.makedirs("images/results")
-
     lrc_plot.plot(ax=ax, alpha=0.8)
     plt.savefig('images/results/roc_curve_result.png')
     plt.close()
@@ -318,11 +316,11 @@ def train_models(X_train, X_test, y_train, y_test):
         y_test_preds_lr,
         y_test_preds_rf)
 
-    # calculate feature importances plot
+    # calculate feature importance plot
     feature_importance_plot(
         cv_rfc.best_estimator_,
         X_train,
-        'images/results/feature_importances.png')
+        'images/results/feature_importance.png')
 
 
 if __name__ == "__main__":

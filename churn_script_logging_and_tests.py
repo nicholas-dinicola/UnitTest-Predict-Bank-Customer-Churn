@@ -25,15 +25,17 @@ def test_import(import_data):
         test data import - this example is completed for you to assist with the other test functions
         """
     try:
+        logging.info("Currently importing the file")
         df = import_data("data/BankChurners.csv")
-        logging.info("Testing import_data: SUCCESS")
     except FileNotFoundError as err:
         logging.error("Testing import_eda: The file wasn't found")
         raise err
 
     try:
+        logging.info("Currently checking the dataset")
         assert df.shape[0] > 0
         assert df.shape[1] > 0
+        logging.info("Testing import_data: SUCCESS")
     except AssertionError as err:
         logging.error(
             "Testing import_data: The file doesn't appear to have rows and columns")
@@ -59,6 +61,7 @@ def test_eda(perform_eda, df):
     perform_eda(df)
 
     try:
+        logging.info("Currently testing EDA analysis")
         assert 5 == len(os.listdir("images/eda"))
         logging.info("Testing EDA analysis: SUCCESS")
     except AssertionError as err:
@@ -75,10 +78,11 @@ def test_encoder_helper(encoder_helper, df):
                 'Income_Category', 'Card_Category'
                 ]
 
-    # apply the encoder helper function
+    # apply the encoder_helper function
     df = encoder_helper(df, cat_vars, 'Churn')
 
     try:
+        logging.info("Currently testing categorical encoder")
         assert set(cat_vars).intersection(set(df.columns))
         logging.info("Testing categorical encoder: SUCCESS")
     except AssertionError as err:
@@ -103,6 +107,7 @@ def test_perform_feature_engineering(perform_feature_engineering, df):
     # Run the feature engineering function
     X_train, X_test, y_train, y_test = perform_feature_engineering(df, 'Churn')
     try:
+        logging.info("Currently testing feature engineering")
         assert X_train.shape[0] > 0
         assert X_test.shape[0] > 0
         assert len(y_train) > 0
@@ -125,6 +130,7 @@ def test_train_models(X_train, X_test, y_train, y_test, train_models):
     train_models(X_train, X_test, y_train, y_test)
 
     try:
+        logging.info("Currently testing model training")
         assert 2 == len(os.listdir("models"))
         logging.info("Testing Training Models: SUCCESS")
     except AssertionError as err:
